@@ -4,6 +4,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class SessionController extends Controller
 {
@@ -11,6 +12,26 @@ class SessionController extends Controller
     public function index()
     {
         return view('sesi.index');
+    }
+
+    public function register()
+    {
+        return view('sesi.register');
+    }
+
+    public function storeRegistration(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::create($validated);
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        return redirect('/plans')->with('success', 'Akun berhasil dibuat. Selamat datang!');
     }
 
     // Memproses data login

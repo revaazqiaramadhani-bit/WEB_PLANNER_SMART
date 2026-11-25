@@ -8,6 +8,8 @@ use App\Http\Controllers\SessionController;
 // Route untuk Login & Logout (Bisa diakses siapa saja yang belum login)
 Route::get('/login', [SessionController::class, 'index'])->name('login');
 Route::post('/login', [SessionController::class, 'login']);
+Route::get('/register', [SessionController::class, 'register'])->name('register');
+Route::post('/register', [SessionController::class, 'storeRegistration']);
 Route::post('/logout', [SessionController::class, 'logout']);
 
 // Route yang dilindungi Middleware (Hanya bisa dibuka setelah Login)
